@@ -1,8 +1,5 @@
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { Loading } from '@/components/Loading';
 import { PostDetail } from '@/components/PostDetail';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default async function Post({ params }: { params: Promise<{ id: string }> }) {
   const id = Number((await params).id);
@@ -13,11 +10,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
 
   return (
     <main>
-      <Suspense fallback={<Loading />}>
-        <ErrorBoundary>
-          <PostDetail id={id} />
-        </ErrorBoundary>
-      </Suspense>
+      <PostDetail id={id} />
     </main>
   );
 }
