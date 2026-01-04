@@ -11,7 +11,7 @@ export async function insertContact({ name, email, reason, notes }: Contact) {
       url: process.env.DB_URL ?? '',
     });
     await client.execute({
-      sql: 'INSERT INTO contacts (name, email, reason, notes) VALUES (?, ?, ?, ?)',
+      sql: 'INSERT INTO contact(name, email, reason, notes) VALUES (?, ?, ?, ?)',
       args: [name, email, reason, notes],
     });
   } catch {
