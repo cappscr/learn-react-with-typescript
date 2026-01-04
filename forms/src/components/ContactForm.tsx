@@ -1,24 +1,9 @@
 'use client';
-import { Contact } from '@/data/schema';
-import { useRouter } from 'next/navigation';
+import { insertContact } from '@/data/insertContact';
 
 export function ContactForm() {
-  const { push } = useRouter();
-
-  async function handleAction(formData: FormData) {
-    const contact = Object.fromEntries(formData) as Contact;
-    const response = await fetch('/api', {
-      method: 'POST',
-      body: JSON.stringify(contact),
-    });
-    if (!response.ok) {
-      console.error('Something went wrong');
-      return;
-    }
-    push('/thanks?name=' + encodeURIComponent(contact.name));
-  }
   return (
-    <form action={handleAction}>
+    <form action={insertContact}>
       <div className="field">
         <label htmlFor="name">Your name</label>
         <input type="text" id="name" name="name" />
