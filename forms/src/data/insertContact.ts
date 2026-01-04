@@ -2,12 +2,20 @@
 
 import { createClient, type Client } from '@libsql/client';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
 import { contactSchema } from './schema';
 
+type Err = { message: string };
+type FieldErrors = {
+  name: Err | null;
+  email: Err | null;
+  reason: Err | null;
+};
 type ActionState = {
   ok: boolean;
   error: string;
   formData: FormData;
+  errors: FieldErrors;
 };
 
 export async function insertContact(previousState: ActionState, formData: FormData) {
@@ -17,6 +25,7 @@ export async function insertContact(previousState: ActionState, formData: FormDa
       ok: false,
       error: 'Unable to save - invalid field values',
       formData,
+      errors: formatZodErrors(parsedResult.error),
     };
   }
   const { name, email, reason, notes } = parsedResult.data;
@@ -43,5 +52,31 @@ export async function insertContact(previousState: ActionState, formData: FormDa
   if (ok) {
     redirect(`/thanks?name=${encodeURIComponent(name)}`);
   }
-  return { ok, error, formData };
+  return { ok, error, formData, errors: { name: null, email: null, reason: null } };
+}
+
+function formatZodErrors(error: z.ZodError) {
+  const formattedErrors: FieldErrors = {
+    name: null,
+    email: null,
+    reason: null,
+  };
+  for (const [key, value] of Object.entries(error.flatten().fieldErrors)) {
+    if (Array.isArray(value)) {
+      if (key === 'name') {
+        formattedErrors.name = {
+          message: value[0],
+        };
+      } else if (key === 'email') {
+        formattedErrors.email = {
+          message: value[0],
+        };
+      } else if (key === 'reason') {
+        formattedErrors.reason = {
+          message: value[0],
+        };
+      }
+    }
+  }
+  return formattedErrors;
 }
