@@ -2,11 +2,15 @@
 
 import { createClient, type Client } from '@libsql/client';
 import { redirect } from 'next/navigation';
-
-import { Contact } from './schema';
+import { contactSchema } from './schema';
 
 export async function insertContact(formData: FormData) {
-  const { name, email, reason, notes } = Object.fromEntries(formData) as Contact;
+  const parsedResult = contactSchema.safeParse(Object.fromEntries(formData));
+  if (!parsedResult.success) {
+    return;
+  }
+  const { name, email, reason, notes } = parsedResult.data;
+
   let client: Client | undefined;
   let ok = true;
 
@@ -16,7 +20,7 @@ export async function insertContact(formData: FormData) {
     });
     await client.execute({
       sql: 'INSERT INTO contact(name, email, reason, notes) VALUES (?, ?, ?, ?)',
-      args: [name, email, reason, notes],
+      args: [name, email, reason, notes ?? null],
     });
   } catch {
     ok = false;
