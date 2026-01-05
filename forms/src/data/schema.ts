@@ -17,3 +17,19 @@ export const contactSchema = z.object({
   }),
   notes: z.string().optional(),
 });
+
+export const getContactsSchema = z.array(
+  z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string(),
+    reason: z.string(),
+    notes: z.string(),
+    done: z.union([z.literal(0), z.literal(1), z.null()]),
+  }),
+);
+
+export const completeSchema = z.object({
+  id: z.coerce.number(),
+  notes: z.string().optional(),
+});
