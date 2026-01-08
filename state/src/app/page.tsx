@@ -26,8 +26,13 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <Main />
+      <Header
+        userName={userName}
+        onSignInClick={handleSignIn}
+        onSignOutClick={handleSignOut}
+        loading={loading}
+      />
+      <Main userName={userName} permissions={permissions} />
     </>
   );
 }
