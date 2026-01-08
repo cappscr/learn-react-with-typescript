@@ -1,17 +1,17 @@
-import { Content } from './Content';
+import { ReactNode } from 'react';
 
 export function Main({
   userName,
-  permissions,
+  children,
 }: {
   userName: string | undefined;
-  permissions: string[] | undefined;
+  children: ReactNode;
 }) {
   return (
     <main>
       <h1>Welcome</h1>
       <p>{userName ? `Hello ${userName}!` : 'Please sign in'}</p>
-      <Content permissions={permissions} />
+      {children}
     </main>
   );
 }
