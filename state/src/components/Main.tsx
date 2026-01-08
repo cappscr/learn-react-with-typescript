@@ -1,12 +1,10 @@
-import { ReactNode } from 'react';
+'use client';
 
-export function Main({
-  userName,
-  children,
-}: {
-  userName: string | undefined;
-  children: ReactNode;
-}) {
+import { ReactNode, use } from 'react';
+import { UserContext } from '@/state/UserContext';
+
+export function Main({ children }: { children: ReactNode }) {
+  const { userName } = use(UserContext);
   return (
     <main>
       <h1>Welcome</h1>
