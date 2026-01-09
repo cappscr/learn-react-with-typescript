@@ -1,9 +1,10 @@
 'use client';
 import { use } from 'react';
 import { UserContext } from '@/state/UserContext';
+import { useUserStore } from '@/state/useUserStore';
 
 export function Content() {
-  const { permissions } = use(UserContext);
+  const permissions = useUserStore((state) => state.permissions);
 
   if (permissions === undefined) {
     return null;

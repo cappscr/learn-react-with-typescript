@@ -1,9 +1,16 @@
 'use client';
-import { use } from 'react';
-import { UserContext } from '@/state/UserContext';
+import { useUserStore } from '@/state/useUserStore';
 
 export function Header() {
-  const { userName, loading, handleSignIn, handleSignOut, togglePermissions } = use(UserContext);
+  const userName = useUserStore((state) => state.userName);
+
+  const loading = useUserStore((state) => state.loading);
+
+  const handleSignIn = useUserStore((state) => state.handleSignIn);
+
+  const handleSignOut = useUserStore((state) => state.handleSignOut);
+
+  const togglePermissions = useUserStore((state) => state.togglePermissions);
 
   return (
     <header>
