@@ -1,29 +1,32 @@
 'use client';
-import { useUserStore } from '@/state/useUserStore';
+import { useAuthStore } from '@/state/useAuthStore';
+import { useGetUser } from '@/hooks/useGetUser';
 
 export function Header() {
-  const userName = useUserStore((state) => state.userName);
+  const userId = useAuthStore((state) => state.userId);
 
-  const loading = useUserStore((state) => state.loading);
+  const { data: user } = useGetUser(userId);
 
-  const handleSignIn = useUserStore((state) => state.handleSignIn);
+  const authenticating = useAuthStore((state) => state.loading);
 
-  const handleSignOut = useUserStore((state) => state.handleSignOut);
+  const handleSignIn = useAuthStore((state) => state.handleSignIn);
 
-  const togglePermissions = useUserStore((state) => state.togglePermissions);
+  const handleSignOut = useAuthStore((state) => state.handleSignOut);
+
+  const userName = user?.name;
 
   return (
     <header>
       {userName ? (
         <>
-          <span onClick={togglePermissions}>{userName} has signed in</span>
-          <button onClick={handleSignOut} disabled={loading} type="button">
-            {loading ? '...' : 'Sign out'}
+          <span>{userName} has signed in</span>
+          <button onClick={handleSignOut} disabled={authenticating} type="button">
+            {authenticating ? '...' : 'Sign out'}
           </button>
         </>
       ) : (
-        <button onClick={handleSignIn} disabled={loading} type="button">
-          {loading ? '...' : 'Sign in'}
+        <button onClick={handleSignIn} disabled={authenticating} type="button">
+          {authenticating ? '...' : 'Sign in'}
         </button>
       )}
     </header>

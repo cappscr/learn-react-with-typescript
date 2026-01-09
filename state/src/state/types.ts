@@ -1,8 +1,13 @@
-export type UserState = {
-  userName: string | undefined;
+export type AuthState = {
+  userId: string | undefined;
   permissions: string[] | undefined;
   loading: boolean;
   handleSignIn: () => Promise<void>;
   handleSignOut: () => Promise<void>;
-  togglePermissions: () => void;
+};
+
+export type UserState = {
+  userId: string;
+  userName: string;
+  email: string;
 };
