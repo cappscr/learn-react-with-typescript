@@ -12,20 +12,6 @@ function App() {
           { id: 5, name: 'Sara', role: 'UX' },
           { id: 6, name: 'Derik', role: 'QA' },
         ]}
-        renderItem={(item) => (
-          <li key={item.id}>
-            <div className="primary">
-              {item.name},{' '}
-              <small
-                style={{
-                  textTransform: 'uppercase',
-                }}
-              >
-                {item.role}
-              </small>
-            </div>
-          </li>
-        )}
         id="id"
         primary="name"
         secondary="role"
