@@ -11,6 +11,9 @@ const vitestConfig = defineVitestConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
+    coverage: {
+      exclude: ['**/types.ts', '**/index.ts', 'vite.config.ts', 'eslint.config.js'],
+    },
   },
 });
 
